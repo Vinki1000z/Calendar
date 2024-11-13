@@ -37,10 +37,21 @@ export default function Page() {
     },
   });
 
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const response = await axios.post('/api/auth/signUp', data);
+      console.log('User created successfully:', response.data);
+      // Handle success, maybe redirect to login or dashboard
+    } catch (error) {
+      console.error('Error creating user:', error.response?.data || error.message);
+      // Handle error (show error message to the user)
+    }
+  };
+
   return (
     <div className="flex justify-center py-20" style={{ alignItems: "center" }}>
       <Form {...form}>
-        <form  className="space-y-8 shadow-custom p-4 rounded-lg">
+        <form onSubmit={form.handleSubmit(onSubmit)}  className="space-y-8 shadow-custom p-4 rounded-lg">
           <FormField
             control={form.control}
             name="username"
